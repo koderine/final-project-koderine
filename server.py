@@ -19,7 +19,10 @@ def emotion_detect():
     sadness = response['sadness']
     dom_emotion = response['dominant_emotion']
 
-    return (f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}, 'sadness': {sadness}. The dominant emotion is {dom_emotion}")
+    if dom_emotion is None:
+        return render_template('index.html', message ='Invalid text! Please try again!')
+    
+    return render_template('index.html', message = f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}, 'sadness': {sadness}. The dominant emotion is {dom_emotion}")
 
 @app.route('/')
 def render_index_page():
