@@ -33,4 +33,4 @@ def emotion_detector(text_to_analyse):
         'sadness': sadness,
         'dominant_emotion': dom_emotion
     }
-    return json.dumps(emotion_dict, indent=2)
+    return emotion_dict
