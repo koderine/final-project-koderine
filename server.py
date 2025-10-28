@@ -1,32 +1,34 @@
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
-app = Flask(__name__)
+app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def emotion_detect():
-    #get text to analyse from request arguments
-    text_to_analyse = request.args.get('textToAnalyse')
+    #get test to analyse from request arguments
+    text_to_analyze = request.args.get('textToAnalyze')
 
-    #store response from function in variable
-    response = emotion_detector(text_to_analyse)
+    #store response from function
+    response = emotion_detector(text_to_analyze)
 
-    #extract specific values to reference in return
+    #extract specific values to reference from returned
     anger = response['anger']
-    disgust = reponse['disgust']
+    disgust = response['anger']
     fear = response['fear']
     joy = response['joy']
     sadness = response['sadness']
-    dom_emotion = response['dominant_emotion']
-
-    if response[dom_emotion] is None:
-        return 'Invalid text! Please try again!'
+    dominant_emotion = response['dominant_emotion']
     
-    return (f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}, 'sadness': {sadness}. The dominant emotion is {dom_emotion}")
+    #error_handling
+    if dom_emotion is None:
+        return render_template('index.html', message ='Invalid text! Please try again!')
 
-@app.route('/')
+    return f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. The  emotion is <b>{dominant_emotion}</b>."
+
+@app.route("/")
 def render_index_page():
     return render_template('index.html')
 
-if __name__ == '__main__':
-    app.run(host= '0.0.0.0', port=5000)
+if __name__ == "__main__":
+    # Run the Flask app on localhost at port 5000.
+    app.run(host="0.0.0.0", port=5000)
