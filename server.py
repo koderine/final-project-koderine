@@ -1,3 +1,6 @@
+"""
+Server for flask app: Emotion Detection
+"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -5,6 +8,10 @@ app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def emotion_detect():
+    """
+    detects emotion output from emotion detector function and shows dominant emotion
+    Invalid text response if dominant emotion value is None
+    """
     #get test to analyse from request arguments
     text_to_analyze = request.args.get('textToAnalyze')
 
@@ -18,18 +25,22 @@ def emotion_detect():
     joy = response['joy']
     sadness = response['sadness']
     dominant_emotion = response['dominant_emotion']
-    
+
     #error_handling
     if dominant_emotion is None:
         return '<b>Invalid text! Please try again!</b>'
 
     return (
-        f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}"
+        f"For the given statement, the system response is 'anger': {anger},"
+        f" 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}"
         f" and 'sadness': {sadness}. The dominant emotion is <b>{dominant_emotion}</b>."
     )
 
 @app.route("/")
 def render_index_page():
+    """
+    Shows main homepage for text input
+    """
     return render_template('index.html')
 
 if __name__ == "__main__":
