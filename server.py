@@ -20,15 +20,18 @@ def emotion_detect():
     dominant_emotion = response['dominant_emotion']
     
     #error_handling
-    if dom_emotion is None:
-        return render_template('index.html', message ='Invalid text! Please try again!')
+    if dominant_emotion is None:
+        return '<b>Invalid text! Please try again!</b>'
 
-    return f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. The  emotion is <b>{dominant_emotion}</b>."
+    return (
+        f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy}"
+        f" and 'sadness': {sadness}. The dominant emotion is <b>{dominant_emotion}</b>."
+    )
 
 @app.route("/")
 def render_index_page():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    # Run the Flask app on localhost at port 5000.
+    #Run the app on localhost at port 5000.
     app.run(host="0.0.0.0", port=5000)
