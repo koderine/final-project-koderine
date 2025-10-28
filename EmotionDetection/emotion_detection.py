@@ -8,11 +8,11 @@ def emotion_detector(text_to_analyse):
     
     response = requests.post(url, json=myobj, headers=header)
 
-    #convert to json
-    formatted_response = json.loads(response.text)
+    #convert from str to dict
+    formatted_response = response.json()
     
     #index emotion from list
-    emotion= formatted_response['emotionPredictions'][0]['emotion']
+    emotion = formatted_response['emotionPredictions'][0]['emotion']
 
     #extract individual emotions
     anger = formatted_response['emotionPredictions'][0]['emotion']['anger']
